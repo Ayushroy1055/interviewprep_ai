@@ -1,2 +1,3 @@
 # Environment variables (CRITICAL)
 .env
+.vercel
