@@ -2,8 +2,7 @@ const { GoogleGenAI } = require("@google/genai")
 const OpenAI = require("openai");
 const { z } = require("zod")
 const { zodToJsonSchema } = require("zod-to-json-schema")
-const chromium = require("@sparticuz/chromium");
-const puppeteer = require("puppeteer-core");
+
 
 const ai = new GoogleGenAI({
     apiKey: process.env.GOOGLE_GENAI_API_KEY
@@ -90,6 +89,9 @@ async function generateInterviewReport({ resume, selfDescription, jobDescription
 
 
 async function generatePdfFromHtml(htmlContent) {
+    
+    const chromiumModule = await import("@sparticuz/chromium");
+    const chromium = chromiumModule.default || chromiumModule;
     // Dynamically load puppeteer-core to completely bypass the CommonJS require error
     const puppeteerModule = await import("puppeteer-core");
     const puppeteer = puppeteerModule.default || puppeteerModule;
