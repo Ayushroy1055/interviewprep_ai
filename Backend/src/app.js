@@ -1,3 +1,9 @@
+if (typeof global.DOMMatrix === 'undefined') {
+  global.DOMMatrix = class DOMMatrix {
+    constructor() {}
+  };
+}
+
 const express = require("express")
 const cookieParser = require("cookie-parser")
 const cors = require("cors")
