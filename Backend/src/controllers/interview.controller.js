@@ -27,17 +27,21 @@ async function generateInterViewReportController(req, res) {
         if (reportData.interviewReport) reportData = reportData.interviewReport;
         if (reportData.data) reportData = reportData.data;
 
-        // 🔍 LOG TO CONSOLE TO CONFIRM STRUCTURE BEFORE SAVING
+        // LOG TO CONSOLE TO CONFIRM STRUCTURE BEFORE SAVING
         // console.log("Parsed AI Data for DB:", reportData);
 
         // 3. Map string arrays to sub-document objects required by Mongoose Schema
-        const technicalQuestions = (reportData.technicalQuestions || []).map(q => ({
+        const technicalQuestions = (reportData.technicalQuestions || [])
+        .filter(Boolean)
+        .map(q => ({
             question: typeof q === 'string' ? q : q.question,
             intention: typeof q === 'object' && q.intention ? q.intention : "Assess core technical knowledge and past project work.",
             answer: typeof q === 'object' && q.answer ? q.answer : "Provide a clear, structured response drawing from hands-on experience."
         }));
 
-        const behavioralQuestions = (reportData.behavioralQuestions || []).map(q => ({
+        const behavioralQuestions = (reportData.behavioralQuestions || [])
+        .filter(Boolean)
+        .map(q => ({
             question: typeof q === 'string' ? q : q.question,
             intention: typeof q === 'object' && q.intention ? q.intention : "Evaluate communication, teamwork, and problem-solving.",
             answer: typeof q === 'object' && q.answer ? q.answer : "Structure your answer using the STAR methodology (Situation, Task, Action, Result)."

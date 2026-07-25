@@ -96,12 +96,16 @@ async function generatePdfFromHtml(htmlContent) {
     const puppeteerModule = await import("puppeteer-core");
     const puppeteer = puppeteerModule.default || puppeteerModule;
 
+    const isProduction = process.env.NODE_ENV === "production" || process.env.VERCEL;
+    const localChromePath = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
     // Launch with Vercel/Serverless compatible executable flags
     const browser = await puppeteer.launch({
-        args: chromium.args,
-        defaultViewport: chromium.defaultViewport,
-        executablePath: await chromium.executablePath(),
-        headless: chromium.headless,
+        args: isProduction ? chromium.args : ["--no-sandbox", "--disable-setuid-sandbox"],
+        defaultViewport:isProduction ? chromium.defaultViewport : { width: 1280, height: 800 },
+        executablePath: isProduction 
+        ? await chromium.executablePath() 
+        : localChromePath, //  Uses local Chrome on Windows!
+        headless: isProduction ? chromium.headless : true,
         ignoreHTTPSErrors: true,
     });
 

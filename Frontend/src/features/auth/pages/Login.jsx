@@ -13,9 +13,25 @@ const Login = () => {
 
     const handleSubmit = async (e) =>{
         e.preventDefault()
-        await handleLogin({email, password})
-        navigate("/")
+        try {
+    const response = await handleLogin({ email, password });
+    console.log("Login response:", response); //Debug log to inspect the response object
+
+    // Extract token depending on how your API/Auth Hook wraps it
+    const token = response?.token || response?.data?.token;
+
+    if (token) {
+      localStorage.setItem("token", token);
+      console.log("Token saved successfully!");
+    } else {
+      console.error("Token missing in login response!");
     }
+
+    navigate("/");
+  } catch (error) {
+    console.error("Login failed:", error);
+  }
+};
 
     if (loading){
         return (<main><h2>Loading.....</h2></main>)

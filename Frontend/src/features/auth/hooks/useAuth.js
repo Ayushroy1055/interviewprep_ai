@@ -11,9 +11,15 @@ export const useAuth=()=>{
         setLoading(true)
         try{ 
             const data = await login({email, password})
+            if (data?.token) {
+            localStorage.setItem("token", data.token);
+        }
             setUser(data.user)
+            return data
         }
         catch (err){
+            console.error("Login failed:", err);
+            throw err;
         }
         finally{
             setLoading(false)

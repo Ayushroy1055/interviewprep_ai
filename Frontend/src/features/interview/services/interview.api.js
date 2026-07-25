@@ -16,9 +16,12 @@ export const generateInterviewReport = async ({ jobDescription, selfDescription,
     formData.append("selfDescription", selfDescription)
     formData.append("resume", resumeFile)
 
+    const token = localStorage.getItem("token");
+    // console.log("Token is sent :", token);
     const response = await api.post("/api/interview/", formData, {
         headers: {
-            "Content-Type": "multipart/form-data"
+            "Content-Type": "multipart/form-data",
+            "Authorization": `Bearer ${token}`
         }
     })
 
