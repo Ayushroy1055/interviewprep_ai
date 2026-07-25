@@ -7,13 +7,14 @@ if (typeof global.DOMMatrix === 'undefined') {
 const express = require("express")
 const cookieParser = require("cookie-parser")
 const cors = require("cors")
+const connectToDB = require("./config/database");
 
 
 const app = express()
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://interviewprep-aifrontend.vercel.app" // Add frontend URL if you deploy it later
+  "https://interviewprep-aifrontend.vercel.app" 
 ];
 
 const corsOptions = {
@@ -34,8 +35,18 @@ app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(async (req, res, next) => {
+  try {
+    await connectToDB();
+    next();
+  } catch (err) {
+    console.error("Database connection failed in middleware:", err);
+    res.status(500).json({ error: "Database connection failed" });
+  }
+});
 
-// 💡 Simple route to test if deployment works without crashing
+
+// Simple route to test if deployment works without crashing
 app.get("/api/health", (req, res) => {
   res.status(200).json({ status: "ok", message: "Backend server is running!" });
 });

@@ -9,8 +9,17 @@ const dns = require ("dns");
 // Change DNS
 dns.setServers(["1.1.1.1", "8.8.8.8"]);
 
-connectToDB()
+const PORT = process.env.PORT || 3000;
 
-app.listen(3000, () => {
-    console.log("Server is running on port 3000")
-})
+const startServer = async () => {
+  try {
+    await connectToDB();
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error("Failed to start server due to DB connection error:", error);
+  }
+};
+
+startServer();
