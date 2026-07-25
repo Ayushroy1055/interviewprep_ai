@@ -1,21 +1,41 @@
 const mongoose = require("mongoose");
 
+//a global cache to store the connection
+let cached = global.mongoose;
 
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
 
 async function connectToDB() {
+    
+    if (cached.conn) {
+    return cached.conn;
+  }
 
+  if (!cached.promise) {
+    const opts = {
+      bufferCommands: false, // 💡 Stops users.findOne() from hanging/buffering when DB isn't ready
+      serverSelectionTimeoutMS: 5000, // Timeout after 5s if Atlas is unreachable
+    };
+
+    cached.promise = mongoose.connect(process.env.MONGO_URI, opts).then((mongooseInstance) => {
+      console.log("Connected to MongoDB");
+      return mongooseInstance;
+    });
+  }
     try {
-        // console.log("Connecting to:", process.env.MONGO_URI); // debug line
-        // console.log("URI:", process.env.MONGO_URI);
+       cached.conn = await cached.promise;
+  } 
+  catch (error) {
+    cached.promise = null; // Clear the cached promise so next request can retry
+    console.log("Error in connection");
+    console.error(error);
+    throw error;
+  }
 
-        await mongoose.connect(process.env.MONGO_URI);
-        console.log("Connected to MongoDB");
-    }
-    catch (error) {
-        console.log("Error in connection");
-        console.error(error);
-        // process.exit(1);
-    }
-};
+  return cached.conn;
+}
+
 
 module.exports = connectToDB;
