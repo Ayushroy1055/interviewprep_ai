@@ -1,5 +1,11 @@
 {
   "version": 2,
+  "functions": {
+    "server.js": {
+      "includeFiles": "node_modules/pdf-parse/**",
+      "maxDuration": 60
+    }
+  },
   "rewrites": [
     {
       "source": "/(.*)",

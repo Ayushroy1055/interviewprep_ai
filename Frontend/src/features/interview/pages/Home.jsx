@@ -15,7 +15,11 @@ const Home = () => {
     const handleGenerateReport = async () => {
         const resumeFile = resumeInputRef.current.files[ 0 ]
         const data = await generateReport({ jobDescription, selfDescription, resumeFile })
-        navigate(`/interview/${data._id}`)
+        if (data && data._id) {
+        navigate(`/interview/${data._id}`);
+    } else {
+        console.error("Report generation failed, cannot navigate.");
+    }
     }
 
     if (loading) {

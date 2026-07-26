@@ -20,9 +20,12 @@ export const useInterview = () => {
         let response = null
         try {
             response = await generateInterviewReport({ jobDescription, selfDescription, resumeFile })
-            setReport(response.interviewReport)
+            const reportData = response?.interviewReport || response?.data?.interviewReport || response;
+            setReport(reportData);
+            return reportData;
         } catch (error) {
             console.log(error)
+            return null;
         } finally {
             setLoading(false)
         }

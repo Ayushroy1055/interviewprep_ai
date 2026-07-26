@@ -26,6 +26,7 @@
     "multer": "^2.2.0",
     "openai": "^6.48.0",
     "pdf-parse": "^2.4.5",
+    "pdf-parse-fork": "^1.2.0",
     "puppeteer-core": "^25.3.0",
     "zod": "^4.4.3",
     "zod-to-json-schema": "^3.25.2"
