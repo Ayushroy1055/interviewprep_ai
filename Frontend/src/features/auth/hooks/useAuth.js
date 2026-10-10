@@ -20,6 +20,9 @@ export const useAuth=()=>{
         catch (err){
             console.error("Login failed:", err);
             throw err;
+            if (err.response && err.response.status == 400) {
+            setError(err.response.data.message || "Wrong credentials entered.");
+    }
         }
         finally{
             setLoading(false)

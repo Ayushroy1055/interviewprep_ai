@@ -33,13 +33,23 @@ const Home = () => {
     return (
         
         <div className='home-page'>
-
+{/* Logut button  */}
             {/* Page Header */}
             <header className='page-header'>
                 <h1>Create Your Custom <span className='highlight'>Interview Plan</span></h1>
+                {/* <h1>Walk into the interview already knowing what they'll ask</h1> */}
                 <p>Let our AI analyze the job requirements and your unique profile to build a winning strategy.</p>
             </header>
-
+            
+            <div className='logout-container'>
+                    <button className='logout-btn'
+                    onClick={() => {
+                        localStorage.removeItem("token");
+                        navigate("/login");
+                    }}>
+                        logout
+                    </button>
+            </div>
             {/* Main Card */}
             <div className='interview-card'>
                 <div className='interview-card__body'>
@@ -58,7 +68,7 @@ const Home = () => {
                             className='panel__textarea'
                             placeholder={`Paste the full job description here...\ne.g. 'Senior Frontend Engineer at Google requires proficiency in React, TypeScript, and large-scale system design...'`}
                             maxLength={5000}
-                        />
+                            />
                         <div className='char-counter'>0 / 5000 chars</div>
                     </div>
 
@@ -102,7 +112,7 @@ const Home = () => {
                                 name='selfDescription'
                                 className='panel__textarea panel__textarea--short'
                                 placeholder="Briefly describe your experience, key skills, and years of experience if you don't have a resume handy..."
-                            />
+                                />
                         </div>
 
                         {/* Info Box */}

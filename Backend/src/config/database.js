@@ -15,7 +15,7 @@ async function connectToDB() {
 
   if (!cached.promise) {
     const opts = {
-      bufferCommands: false, // 💡 Stops users.findOne() from hanging/buffering when DB isn't ready
+      bufferCommands: false, //  Stops users.findOne() from hanging/buffering when DB isn't ready
       serverSelectionTimeoutMS: 5000, // Timeout after 5s if Atlas is unreachable
     };
 

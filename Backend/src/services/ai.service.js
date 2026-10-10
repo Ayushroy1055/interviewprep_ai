@@ -55,7 +55,7 @@ async function generateInterviewReport({ resume, selfDescription, jobDescription
     
 
     const prompt = `You are an expert AI Interviewer and AI career coach . 
-                    Analyze the candidate's resume and job description to generate a structured interview preparation report.
+                        Analyze the candidate's resume and job description to generate a structured interview preparation report.
 
                     CRITICAL INSTRUCTIONS:
                     - You MUST generate technical questions, behavioral questions, skill gaps, and a step-by-step preparation plan.
