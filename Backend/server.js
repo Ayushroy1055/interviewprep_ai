@@ -11,15 +11,15 @@ dns.setServers(["1.1.1.1", "8.8.8.8"]);
 
 const PORT = process.env.PORT || 3000;
 
-const startServer = async () => {
-  try {
-    await connectToDB();
-    app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
-    });
-  } catch (error) {
-    console.error("Failed to start server due to DB connection error:", error);
-  }
-};
+// Connect to MongoDB
+connectToDB().catch((error) => {
+  console.error("Failed to connect to DB:", error);
+});
 
-startServer();
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`Server is running locally on port ${PORT}`);
+  });
+}
+
+module.exports = app;
