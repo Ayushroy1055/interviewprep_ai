@@ -103,6 +103,7 @@ async function loginUserController(req, res) {
     });
     res.status(200).json({
         message: "User loggedIn successfully.",
+        token,
         //for temporary storing token
         user: {
             id: user._id,
